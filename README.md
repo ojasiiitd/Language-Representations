@@ -14,29 +14,29 @@ Precog Assignment: February 2025
 
 📂 **Language-Representations**
 
-├── 📂 **Corpora** *[corpora for P1, and alignment dictionary for P2]*
+⮕📂 **Corpora** *[corpora for P1, and alignment dictionary for P2]*
 
-  ├── 📄 **bilingual_dict_chatgpt.csv**
+  →📄 **bilingual_dict_chatgpt.csv**
 
-  ├── 📄 **bilingual_prompt_en_hi.txt**
+  →📄 **bilingual_prompt_en_hi.txt**
+  
+  →📄 **eng_wiki_corpora.txt**
 
-  └── 📄 **eng_wiki_corpora.txt**
+⮕📂 **Evals** *[BLESS concept categorization eval dataset]*
 
-├── 📂 **Evals** *[BLESS concept categorization eval dataset]*
+  →📄 **bless_concept.json**
 
-  └── 📄 **bless_concept.json**
+⮕📂 **Images** *[images used throughout README]*
 
-├── 📂 **Images** *[images used throughout README]*
+⮕📄 **precog_utils.py** *[common functions used though P1, P2, Bonus]*
 
-├── 📄 **precog_utils.py** *[common functions used though P1, P2, Bonus]*
+⮕📄 **co_occurrence_embeddings.ipynb** *[P1 code]*
 
-├── 📄 **co_occurrence_embeddings.ipynb** *[P1 code]*
+⮕📄 **cross_lingual_alignment.ipynb** *[P2 code]*
 
-├── 📄 **cross_lingual_alignment.ipynb** *[P2 code]*
+⮕📄 **caste_bias.ipynb** *[Bonus Task code]*
 
-├── 📄 **caste_bias.ipynb** *[Bonus Task code]*
-
-└── 📄 **README .md** *[consists of the motivation, directory structure and entire report/documentation through P1, P2, P3, Bonus]*
+⮕📄 **README .md** *[consists of the motivation, directory structure and entire report/documentation through P1, P2, P3, Bonus]*
 
 ---
 ### Part 1 : Creating and Analysing Word Embeddings
