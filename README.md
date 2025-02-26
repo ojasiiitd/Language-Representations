@@ -16,15 +16,15 @@ Precog Assignment: February 2025
 
 ├── 📂 **Corpora** *[corpora for P1, and alignment dictionary for P2]*
 
-│   ├── 📄 **bilingual_dict_chatgpt.csv**
+    ├── 📄 **bilingual_dict_chatgpt.csv**
 
-│   ├── 📄 **bilingual_prompt_en_hi.txt**
+    ├── 📄 **bilingual_prompt_en_hi.txt**
 
-│   └── 📄 **eng_wiki_corpora.txt**
+    └── 📄 **eng_wiki_corpora.txt**
 
 ├── 📂 **Evals** *[BLESS concept categorization eval dataset]*
 
-│   └── 📄 **bless_concept.json**
+    └── 📄 **bless_concept.json**
 
 ├── 📂 **Images** *[images used throughout README]*
 
