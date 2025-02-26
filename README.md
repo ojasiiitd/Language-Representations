@@ -252,40 +252,40 @@ W = YX^\top (XX^\top)^{-1}
 * Model Architechure :-
 
 >**Input: Hindi Word Embedding (300D)**
-
-↓  
-
-**Linear Layer** (300 → 512)
-
-↓  
-
-**GELU Activation**
-
-↓  
-
-**Dropout** (10%)
-
-↓  
-
-**Linear Layer** (512 → 512)
-
-↓  
-
-**GELU Activation**
-
-↓  
-
-**Dropout** (10%)
-
-↓  
-
-**Linear Layer** (512 → 300)
-
-↓  
-
-**Output: Predicted Embedding Logits (300D)**
-
-**Loss Function:** Cosine Similarity with true English embedding
+>
+>↓  
+>
+>**Linear Layer** (300 → 512)
+>
+>↓  
+>
+>**GELU Activation**
+>
+>↓  
+>
+>**Dropout** (10%)
+>
+>↓  
+>
+>**Linear Layer** (512 → 512)
+>
+>↓  
+>
+>**GELU Activation**
+>
+>↓  
+>
+>**Dropout** (10%)
+>
+>↓  
+>
+>**Linear Layer** (512 → 300)
+>
+>↓  
+>
+>**Output: Predicted Embedding Logits (300D)**
+>
+>**Loss Function:** Cosine Similarity with true English embedding
 
 * Training data comes from the bilingual dictionary: with Hindi Embeddings as input and their corresponding English Embeddings as target values.
 * Loss function returns the `-(Cosine Similarity / L2 Norm + ε)` between predicted logits and the true English embeddings. The -ve is introduced as we need to maximize this value for a good model. In addition to this, I have used the Adam optimizer with a learning rate of 0.003.
