@@ -300,8 +300,12 @@ Let's see how good our alignemnt is by trying to observe the aligned English vec
 \\{where,}
 ```
 ```math
-c = \text{Average Cosine Similarity} \\
+c = \text{Average Cosine Similarity}
+```
+```math
 l_2 = \text{Average L2 Norm Similarity} \\
+```
+```math
 \epsilon = \text{1e-8}
 ```
 * The OVM Index will be calculated across the testing set to quantatively determine the effectiveness of the alignments.
