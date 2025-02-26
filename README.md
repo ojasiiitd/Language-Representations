@@ -51,6 +51,7 @@ Most Common Words:  [('the', 444265), ('of', 213856), ('and', 173917), ('<UNK>',
 The rows of our `65k x 65k` co-occurrence matrix are essentially the embeddings for each word corresponding to the row. The issue is that is matrix is sparse (lots of zeros) and very huge, making working with it compute intensive.
 
 **TruncatedSVD for Dimensionality Reduction**
+
 To work around this, I used TruncatedSVD, which is an appoximation based on Singular Value Decomposition of a matrix. TruncatedSVD captures the importance/weights (singualar values) of each column (feature), and removes the nearly redundant dimensions. This reduces the dimensions of the matrix without losing much information.
 Co-occurrence matries are sparse matrices, owing to the fact that most words usually don't come in the same context as a lot of vocabulary words, rendering most counts as be 0.
 TruncatedSVD is a great way to create dense embeddings from sparese ones, and remove redundancy in the co-occurrence matrix. Using TruncatedSVD, I can convert my `VxV` dimensional vector space to a `Vxd` dimensional space, where `d` is the reduced dimension.
@@ -187,6 +188,7 @@ As expected, compacttext performs worse than FastText. Still there is only a sli
 ### Part 2 : Cross-Lingual Alignment
 
 Word embeddings essentially exist in the same vector space (provided they are of equal dimensions). I downloaded FastText English and FastTest Hindi pre-trained Wiki word vectors (embeddings) from the [official website](https://fasttext.cc/docs/en/pretrained-vectors.html). Both sets of embeddings have 300 dimensions. Hence, all these combined word vectors exist in the same 300-dimensional space. But, as English and Hindi embeddings were trained separately across a linguistically varied corpora, English words may not be closer to their corresponding Hindi translations.
+
 What alignment does is try to find a transformation (a combination of rotation, translation, scaling) which will ***semantcally synchronize*** or ***ALIGN*** these 2 sets of word embeddings. At first it sounds magical, language translations being nothing but a simple matrix multiplication operation! However, it makes more sense when I realize that Hindi embeddings also exist in a spatially and semantically sound manner -- just like English embeddings. So, if `paper` and `documents` exist around each other, `कागज़` and `दस्तावेज़` also exist around each other in the same vector space; but in different regions. What an ideal alignment does is find a transformation for `कागज़` and `दस्तावेज़` so their transformed vectors now lie near `paper` and `documents`. To learn this transformation, we reaquire a small set of corresponding Hindi and English words to "learn" the transformation.
 This enables cross-lingual knowledge transfer, where we can relate words and ideas together across languages.
 
@@ -250,22 +252,39 @@ W = YX^\top (XX^\top)^{-1}
 * Model Architechure :-
 
 >**Input: Hindi Word Embedding (300D)**
+
 ↓  
+
 **Linear Layer** (300 → 512)
+
 ↓  
+
 **GELU Activation**
+
 ↓  
+
 **Dropout** (10%)
+
 ↓  
+
 **Linear Layer** (512 → 512)
+
 ↓  
+
 **GELU Activation**
+
 ↓  
+
 **Dropout** (10%)
+
 ↓  
+
 **Linear Layer** (512 → 300)
+
 ↓  
+
 **Output: Predicted Embedding Logits (300D)**
+
 **Loss Function:** Cosine Similarity with true English embedding
 
 * Training data comes from the bilingual dictionary: with Hindi Embeddings as input and their corresponding English Embeddings as target values.
@@ -335,6 +354,8 @@ l_2 = \text{Average L2 Norm Similarity}
 | **Chord Placement**  | Provide correct chord fret placements for string instruments with standard tunings.                                | Provide fret placements for a guitar/ukulele with altered strings.                                                 | Retrieve the first three notes on each string.                     |
 | **Chess**           | Ask for the legality of a 4-move opening.                                                                                 | Swap knights and bishops, ask for opening legality under this new configuration.                     | Ask for the starting positions of the knights and bishops.                                                                |
 
+
+More in the video attached...
 
 ---
 ### BONUS TASK: Harmful Associations
