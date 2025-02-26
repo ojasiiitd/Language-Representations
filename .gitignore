@@ -1,0 +1,8 @@
+*.pptx
+*.mov
+*.mp4
+Embeddings/
+Corpora/bilingual_dictionary/
+extras/
+rough_work.ipynb
+.DS_Store
