@@ -342,12 +342,21 @@ l_2 = \text{Average L2 Norm Similarity}
 
 ## *References*
 [Evaluating Word Embedding Models: Methods and Experimental Results](https://arxiv.org/pdf/1901.09785)
+
 [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/pdf/1301.3781)
+
 [vecto-ai / word-benchmarks](https://github.com/vecto-ai/word-benchmarks)
+
 [FastText](https://fasttext.cc/docs/en/english-vectors.html)
+
 [Understanding Cross-Lingual Alignment—A Survey](https://aclanthology.org/2024.findings-acl.649/)
+
 [🤗](https://huggingface.co)
+
 [ChatGPT helped me make good visualizations, and refine my code](https://chatgpt.com)
+
 [Massively Multilingual Document Alignment with Cross-lingual Sentence-Mover's Distance](https://arxiv.org/abs/2002.00761)
+
 [Hate Speech and Abusive Language Classification using fastText](https://www.researchgate.net/profile/Guntur-Herwanto/publication/339978524_Hate_Speech_and_Abusive_Language_Classification_using_fastText/links/5f3a296d299bf13404cb24f6/Hate-Speech-and-Abusive-Language-Classification-using-fastText.pdf)
+
 [Indian-BhED: A Dataset for Measuring India-Centric Biases in Large Language Models](https://arxiv.org/html/2309.08573v2#S3)
