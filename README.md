@@ -20,10 +20,10 @@ I will also be evaluating the embeddings I create using an intrinsic evaluation 
 **Sample Raw Dataset Rows**
 ```
 ...
-251419	These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
-251420	These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
-251421	These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
-251422	These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
+251419  These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
+251420  These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
+251421  These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
+251422  These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
 ...
 ```
 **Some observations :**
@@ -295,8 +295,11 @@ Let's see how good our alignemnt is by trying to observe the aligned English vec
 ###### Orientation-Value-Mean Index (OVM Index)
 ```math
 \text{OVM Index} = \frac{c}{l_2 + \epsilon}
+```
+```math
 \\{where,}
-\\
+```
+```math
 c = \text{Average Cosine Similarity} \\
 l_2 = \text{Average L2 Norm Similarity} \\
 \epsilon = \text{1e-8}
