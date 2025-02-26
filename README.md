@@ -9,9 +9,23 @@ Precog Assignment: February 2025
 
 >**Say why language representations I have chosen ...**
 
-### Directory Structure
 
->**Batao directory structure ...**
+### Project Directory Structure
+
+📂 **Language-Representations**
+├── 📂 **Corpora** *[corpora for P1, and alignment dictionary for P2]*
+│   ├── 📄 **bilingual_dict_chatgpt.csv**
+│   ├── 📄 **bilingual_prompt_en_hi.txt**
+│   └── 📄 **eng_wiki_corpora.txt**
+├── 📂 **Evals** *[BLESS concept categorization eval dataset]*
+│   └── 📄 **bless_concept.json**
+├── 📂 **Images** *[images used throughout README]*
+├── 📄 **precog_utils.py** *[common functions used though P1, P2, Bonus]*
+├── 📄 **co_occurrence_embeddings.ipynb** *[P1 code]*
+├── 📄 **cross_lingual_alignment.ipynb** *[P2 code]*
+├── 📄 **caste_bias.ipynb** *[Bonus Task code]*
+└── 📄 **README .md** *[consists of the motivation, directory structure and entire report/documentation through P1, P2, P3, Bonus]*
+
 ---
 ### Part 1 : Creating and Analysing Word Embeddings
 I explore generation of dense word representations from an English corpora. The dataset used is the [English-Wiki-2016 dataset](https://wortschatz.uni-leipzig.de/en/download/English) (300K sentences). The idea is that dense vector representations (embeddings) should somehow capture the semantic interpretations of words in a vector space which is computationally efficient.
