@@ -151,10 +151,17 @@ words = [
 ###### Proposed Metric: Semantic Scatter Score (SSS)
 ```math
 SSS = \frac{e^{\left(\left(f+1\right)\cdot\left(s+2\right)\right)}}{\sqrt[4]{v}}
-\\{where,}
-\\
-f = \text{F1 score on the analogy task} \\
-s = \text{Silhouette score on the concept categorization task} \\
+```
+```math
+{where,}
+```
+```math
+f = \text{F1 score on the analogy task}
+```
+```math
+s = \text{Silhouette score on the concept categorization task}
+```
+```math
 v = \text{Vocabulary length of the embeddings}
 ```
 * I came up with this metric with the ideas being:
@@ -297,13 +304,13 @@ Let's see how good our alignemnt is by trying to observe the aligned English vec
 \text{OVM Index} = \frac{c}{l_2 + \epsilon}
 ```
 ```math
-\\{where,}
+{where,}
 ```
 ```math
 c = \text{Average Cosine Similarity}
 ```
 ```math
-l_2 = \text{Average L2 Norm Similarity} \\
+l_2 = \text{Average L2 Norm Similarity}
 ```
 ```math
 \epsilon = \text{1e-8}
