@@ -1,6 +1,7 @@
 *.pptx
 *.mov
 *.mp4
+*.pdf
 Embeddings/
 Corpora/bilingual_dictionary/
 extras/
