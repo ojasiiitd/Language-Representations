@@ -46,10 +46,10 @@ I will also be evaluating the embeddings I create using an intrinsic evaluation 
 **Sample Raw Dataset Rows**
 ```
 ...
-251419	These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
-251420	These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
-251421	These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
-251422	These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
+251419  These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
+251420  These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
+251421  These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
+251422  These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
 ...
 ```
 **Some observations :**
@@ -401,11 +401,11 @@ To statistically analyse if casteist associations are reproduced which are propa
 A t-test was conducted to see if the cosine similarity of both positive and negative adjectives were statistically different for different identities.
 
 **t-test**
->`Null Hypothesis (H0) = The positive/negative adjectives are used similarly for identity A  and  identity B . That is, their mean cosine similarities are statistically equivalent.`
+>**`Null Hypothesis (H0) = The positive/negative adjectives are used similarly for identity A  and  identity B . That is, their mean cosine similarities are statistically equivalent.`**
 
->`Alternate Hypothesis (H1) = The positive/negative adjectives are used differently for word A  and  word B . That is, their mean cosine similarities are statistically unequal.`
+>**`Alternate Hypothesis (H1) = The positive/negative adjectives are used differently for word A  and  word B . That is, their mean cosine similarities are statistically unequal.`**
 
->`If  p < 0.05 , reject  H0 , meaning H1 is significant -- the positive/negative adjectives are biased in the way they are used with identity A and identity B`
+>**`If  p < 0.05 , reject  H0 , meaning H1 is significant -- the positive/negative adjectives are biased in the way they are used with identity A and identity B`**
 
 #### FastText Embeddings
 ![alt text](Images/image-13.png)
@@ -419,8 +419,7 @@ A t-test was conducted to see if the cosine similarity of both positive and nega
 
 Although both embddings show some level of harmful associations, it seems that the contextual BERT embeddings more readily reproduce those associations with more extreme values. For example, BERT associates positive qualities with "Savarna" more than with "Avarna", and associates negative qualities with "tribal" much more then with "Brahmin". While further analysis is required to make conclusions, I think this could be due to:
 * BERT having been trained on much more training data, as transformer architecture enables tokens to be paralelly processed.
-* Being a contextual embedding, BERT can capture these "harmful associations" better than FastText.
-* 
+* Being a contextual embedding trained with attention, BERT can capture these "harmful associations" better than FastText.
 
 ## *References*
 [Evaluating Word Embedding Models: Methods and Experimental Results](https://arxiv.org/pdf/1901.09785)
