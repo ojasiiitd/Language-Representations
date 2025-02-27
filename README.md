@@ -46,10 +46,10 @@ I will also be evaluating the embeddings I create using an intrinsic evaluation 
 **Sample Raw Dataset Rows**
 ```
 ...
-251419  These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
-251420  These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
-251421  These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
-251422  These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
+251419	These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
+251420	These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
+251421	These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
+251422	These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
 ...
 ```
 **Some observations :**
@@ -366,9 +366,13 @@ l_2 = \text{Average L2 Norm Similarity}
 
 ![alt text](Images/image-12.png)
 
-
 ---
-### Part 3 : Paper Reading
+### Part 3 : Paper Reading and Discussion
+***Reasoning or Reciting? Exploring the Capabilities and Limitations of Language Models Through Counterfactual Tasks***
+
+>*Paper review and critique is present in the video present [here](https://drive.google.com/file/d/1f61pe31tcGxwmDuLx2WfjxDq_wsXAOUT/view?usp=share_link) ...*
+
+**Summarizing the tasks:**
 
 | **Task Name**           | **Default Task**                                                                                                                                                                   | **Counterfactual Task**                                                                                                                                                                 | **CCC Task**                                                                                                                                                                          |
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -380,12 +384,43 @@ l_2 = \text{Average L2 Norm Similarity}
 | **Chord Placement**  | Provide correct chord fret placements for string instruments with standard tunings.                                | Provide fret placements for a guitar/ukulele with altered strings.                                                 | Retrieve the first three notes on each string.                     |
 | **Chess**           | Ask for the legality of a 4-move opening.                                                                                 | Swap knights and bishops, ask for opening legality under this new configuration.                     | Ask for the starting positions of the knights and bishops.                                                                |
 
-
-More in the video attached...
-
 ---
 ### BONUS TASK: Harmful Associations
 
+In India, caste discrimination is prevalent not only in educational institutions, places of worship, jobs and markets, but is now also widely mainstream in online discourse. Be it Twitter, Facebook, Wikipedia or any other social knowledge base, violent casteist vocabularies and associations are propagated and gain traction in the media.
+
+As word embeddings use tons of training data from the internet, these harmful associations find their way into these embeddings and silently inform the quality and "social coding" of the output. This is particularly harmful if these same embeddings are used in the sphere of law, curriculum design, and synthetic data production.
+
+To statistically analyse if casteist associations are reproduced which are propagated in mainstream online discourse:
+* I tried to see how adjectives (both positive and negative) statistically relate to nouns used to represent identities from both oppressor and oppressed caste communities.
+* Nouns include words like: "Brahmin", "Dalit", "tribal", "Savarna", "Avarna", etc
+* I also create a list of positively associated adjectives, and negatively associated adjectives.
+* The idea is to see if the usage of both positive and negative adjectives in tandem with identities is statistically different.
+* I will be running and visualising the test results for FastText and BERT embeddings.
+
+A t-test was conducted to see if the cosine similarity of both positive and negative adjectives were statistically different for different identities.
+
+**t-test**
+>`Null Hypothesis (H0) = The positive/negative adjectives are used similarly for identity A  and  identity B . That is, their mean cosine similarities are statistically equivalent.`
+
+>`Alternate Hypothesis (H1) = The positive/negative adjectives are used differently for word A  and  word B . That is, their mean cosine similarities are statistically unequal.`
+
+>`If  p < 0.05 , reject  H0 , meaning H1 is significant -- the positive/negative adjectives are biased in the way they are used with identity A and identity B`
+
+#### FastText Embeddings
+![alt text](Images/image-13.png)
+* I notice that positive similarities with "Brahmin" are statistically different than those with "tribal".
+* Also, negative similarities with "Brahmin" are statistically different than those with "Dalit".
+
+#### BERT Embeddings
+![alt text](Images/image-14.png)
+* I notice that positive similarities with "Savarna" are statistically different than those with "Avarna".
+* Also, negative similarities with "Brahmin" are statistically different than those with "tribal".
+
+Although both embddings show some level of harmful associations, it seems that the contextual BERT embeddings more readily reproduce those associations with more extreme values. For example, BERT associates positive qualities with "Savarna" more than with "Avarna", and associates negative qualities with "tribal" much more then with "Brahmin". While further analysis is required to make conclusions, I think this could be due to:
+* BERT having been trained on much more training data, as transformer architecture enables tokens to be paralelly processed.
+* Being a contextual embedding, BERT can capture these "harmful associations" better than FastText.
+* 
 
 ## *References*
 [Evaluating Word Embedding Models: Methods and Experimental Results](https://arxiv.org/pdf/1901.09785)
