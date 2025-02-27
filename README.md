@@ -7,8 +7,11 @@ Precog Assignment: February 2025
 
 ## Task : Language Representations
 
->**Say why language representations I have chosen ...**
+I've chosen to work with language representations because I find it very fascinating how dimensions are correlated with semantic meaning. Human understanding of language also comes from different dimensions - speech, gestures, body language, facial expression, touch, tone, loudness, and context. In a similar fashion, the dream is that computers should also understand language encapsulating all these dimensions and possibly beyond.
 
+One of the first steps for representing language is to collect all these dimensions inside a single dense vector containing the context and semantic meaning of each token. If we can contain more information inside a dense vector, language can be processed more completely and efficiently. This makes everything from encoders to chatbots more aware and accurate with their semantic understanding.
+
+Semantic dimensions are vastly affected by culture, geograpghy, socio-economic conditions and dialects, making each language rich with semantic interpretation. So, I believe multilingual language representations hold a lot of value and scope for refinement. Hence I have decided to put my efforts to contribute to this task focused on language representations research and multilingual alignment.
 
 ### Project Directory Structure
 
@@ -24,49 +27,53 @@ Precog Assignment: February 2025
 
 ⮕📂 **Evals** *[BLESS concept categorization eval dataset]*
 
-  >→📄 **bless_concept.json**
+  >→📄 **bless_concept.csv**
 
 ⮕📂 **Images** *[images used throughout README]*
+  >→📄 **image{4-14}.png**
 
-⮕📄 **precog_utils.py** *[common functions used though P1, P2, Bonus]*
+⮕📄 **precog_utils.py** *[common functions used though Part1, Part2 and Bonus Task]*
 
-⮕📄 **co_occurrence_embeddings.ipynb** *[P1 code]*
+⮕📄 **co_occurrence_embeddings.ipynb** *[Part1 code]*
 
-⮕📄 **cross_lingual_alignment.ipynb** *[P2 code]*
+⮕📄 **cross_lingual_alignment.ipynb** *[Part2 code]*
 
 ⮕📄 **caste_bias.ipynb** *[Bonus Task code]*
 
 ⮕📄 **README .md** *[consists of the motivation, directory structure and entire report/documentation through P1, P2, P3, Bonus]*
 
----
-### Part 1 : Creating and Analysing Word Embeddings
-I explore generation of dense word representations from an English corpora. The dataset used is the [English-Wiki-2016 dataset](https://wortschatz.uni-leipzig.de/en/download/English) (300K sentences). The idea is that dense vector representations (embeddings) should somehow capture the semantic interpretations of words in a vector space which is computationally efficient.
-I will also be evaluating the embeddings I create using an intrinsic evaluation task i.e. Analogy Test. I will also run the same evaluations for a state-of-the-art embedding representation, FastText. This will help me assess the quality of my embeddings.
+⮕📄 **Precog_Report.pdf** *[README in pdf format]*
 
-**Sample Raw Dataset Rows**
+---
+### Part 1 : Dense Representations
+
+I explore generation of dense word representations from an English corpora. The dataset used is the [English-Wiki-2016 dataset](https://wortschatz.uni-leipzig.de/en/download/English) (300K sentences). The idea is that vector representations (embeddings) should somehow capture the semantic interpretations of words in a dense vector space which is computationally efficient.
+I will also be evaluating the embeddings I create using a intrinsic evaluation tasks i.e. Analogy Test and Concept Categorization. Running the same evaluations for a state-of-the-art embedding representation, FastText will help me assess the quality of my embeddings.
+
+**Sample Raw Dataset Rows [English-Wiki-2016 dataset]**
 ```
 ...
-251419  These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
-251420  These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
-251421  These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
-251422  These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
+251419	These stars energize a superbubble about 1200 lys across which is observed in the visual (Hα) and X-ray portions of the spectrum.
+251420	These statements from Catholic officials signal a shift away from a “hard” supersessionist model of displacement.
+251421	These statements preceded the first law of thermodynamics (1845) and helped in its formulation.
+251422	These states along with Himachal Pradesh, Uttarakhand, and Sikkim lie mostly in the Himalayan region.
 ...
 ```
 **Some observations :**
 * All sentences are indexed with a serial number which we will have to remove while cleaning the corpus.
-* There are some special characters dispersed throughout the corpus, which do not require to be embedded, as our evaluations will mostly focus on semantic understanding.
+* There are some special characters dispersed throughout the corpus, which do not require to be embedded, as our evaluations will mostly focus on semantic vocabulary understanding.
 * Each sentence is ~12-17 sentences long, so this would have to be kept in mind while setting the context window. A small context window could be ~2 words. A good sized context window shall be ~5 words.
-* As some words (like proper nouns) appear very rarely, they might increase my vocabulary size too much without adding a of value, and becoming an unnecessary performance bottleneck. I will need to address this issue by handling `<UNK>` tokens into my vocabulary.
+* As some words (like proper nouns) appear very rarely, they might increase my vocabulary size too much without adding a lot of value, and becoming an unnecessary performance bottleneck. I will need to address this issue by handling `<UNK>` tokens into my vocabulary, based on frequency.
 
 #### Co-Occurrence Matrix
 * A co-occurrence matrix was constructed based on how frequently pairs of words appear together in a context window.
-* A few experiments were carried out for threshholding as well - when to keep/remove tokens in the vocabulary. Note that removing tokens referes to treating them as `<UNK>`. The trade-off with threshholding is vocabulary size (computational expense) vs inference on diverse corpora. I found that `vocab_threshold=3` did not reduce vocab size too much, and also `<UNK>` turned out to be less frequent (although it was still pretty frequent).
+* A few experiments were carried out for threshholding as well - when to keep/remove tokens in the vocabulary. Note that removing tokens refers to treating them as `<UNK>`. The trade-off with threshholding is vocabulary size (computational expense) vs inference on diverse corpora. I found that `vocab_threshold=3` did not reduce vocab size too much, and also `<UNK>` turned out to be less frequent (although it was still pretty frequent).
 * Here are the most common words in the dataset after processing and 3-threshholding:
 ```
-Most Common Words:  [('the', 444265), ('of', 213856), ('and', 173917), ('<UNK>', 164394), ('to', 156518), ('in', 154961), ('a', 135257), ('is', 69267), ('was', 58467), ('for', 53660)]
+Most Common Words:  [('the', 444265), ('of', 213856), ('and', 173917), ('<UNK>', 164394), ('to', 156518), ('in', 154961) ... ]
 ```
 * The vocabulary size after cleaning and threshholding is found to be ~65k tokens across the 300K sentence corpus.
-* As each sentence is ~12-17 sentences long, ***Short Context Length = 2 (computationally cheap)*** , ***Good Context Length = 5 (computationally efficient)***. A longer context length (~8-10) might be even better, but computationally expensive. I have analysed context windows of 2 words and 5 words for this project.
+* As each sentence is ~12-17 sentences long, ***Short Context Length = 2 (computationally cheap)*** , ***Good Context Length = 5 (computationally efficient)***. A longer context length (~8-10) might be better, but computationally expensive. I have analysed context windows of 2 words and 5 words for this project.
 
 **Probability Matrix**
 * I converted the co-occurrence matrix to a probability matrix by dividing each row with it's sum.
@@ -89,6 +96,7 @@ TruncatedSVD is a great way to create dense embeddings from sparese ones, and re
 * For convenience, let's call these resulting embeddings **compacttext** and **distilledtext**.
 * To compare my embedding models, I will use FastText. More on FastText in below.
 
+**Summarizing my embeddings and FastText:**
 | | compacttext | distilledtext | FastText |
 | -- | -- | -- | -- |
 | Vocab Size | 64.8k | 64.8k | 1000k |
@@ -113,11 +121,11 @@ TruncatedSVD is a great way to create dense embeddings from sparese ones, and re
 * Both embedding models agree on the most part, but it seems like distilledtext is less confident about non-related words. This is possible due to the information loss during TruncatedSVD. distilledtext might also overestimate similarities between related words due to the same reason.
 
 **Visualizing Embeddings using PCA**
-* Reduced the embeddings for compacttext to 2 dimensions and visualizing them on the X-Y axis:
+* Reduced the embeddings for **compacttext** to 2 dimensions and visualizing them on the X-Y axis:
 ![alt text](Images/image-7.png)
 
 ##### Intrinsic Evaluation
-I'll be using **FastText** - a state-of-the-art neural embedding model created by Facebook for ~200 languages. FastText is a pre-trained word embedding model learned on different sources using a deep neural network. It's an open-source and the English dataset is publicly available [here](https://fasttext.cc/docs/en/english-vectors.html).
+I'll be using **FastText** - a state-of-the-art neural embedding model created by Facebook for ~200 languages. FastText is a pre-trained word embedding model learned on different sources using a deep neural network. It's fully open-source and the English embeddings is publicly available [here](https://fasttext.cc/docs/en/english-vectors.html).
 
 ###### BATS (The Bigger Analogy Test Set)
 * Sample rows - BATS 
@@ -133,18 +141,20 @@ choices : [
 answer : 1
 }
 ```
+* To estimate the quality of each embedding, I calculated the F1 score for the analogy task for random, compacttext and FastText embeddings.
+
 ![alt text](Images/image-8.png)
-* All generated embeddings are able to beat random predictions (~2x better performance).
+* compacttext is able to beat random predictions (~2x better performance).
+* compacttext still performs worse than FastText.
 * **`F1 Score (random predictions) = 0.22`**
 * **`F1 Score (compacttext (context 2)) = 0.49`**
 * **`F1 Score (FastText) = 0.72`**
-* Interestingly, compacttext (context 2) performs slightly better than compacttext (context 5) (F1 score 0.45).
-* I also notice distilledtext somehow performs almost similar to compacttext. It is interesting to think through why this may be:
+* Interestingly, **compacttext (context 2) performs slightly better than compacttext (context 5)** `(F1 score 0.45)`.
+* I also notice **distilledtext somehow performs almost similar to compacttext**. It is interesting to **think through why this may be**:
   * The top 10 components (weights) after SVD may still be preserved in distilled text. It's possible that due to the relatively small corpus size, 10 latent features might be able to retain a significant portion of the information.
-  * Even if there was information loss, it could be positively affecting accuracy as the embeddings are able to generalize better - maybe more abstract relationships between words can be explored in a smaller vector space.
+  * Even if there was information loss, it could be positively affecting accuracy as the embeddings are now able to generalize better - maybe more abstract relationships between words can be explored in a smaller vector space.
   * BATS is a relatively simple test, containing common words - not requiring a deep and nuanced semantic understanding - resulting in similar performance across high and low dimensions.
-* So, I'll use compacttext (context 2) as my best model to compare against FastText.
-* compacttext beats random predictions, but is still performs worse than FastText.
+* So, I'll use **compacttext (context 2) as my best model** for further tests against FastText.
 
 ###### Concept Categorization (BLESS Datasets)
 * Sample Rows - BLESS
@@ -169,6 +179,9 @@ words = [
 
 ![alt text](Images/image-9.png)
 * I've used the compacttext (context 2) as my embeddings as it performed the best in the Analogy Test. While visualizing the spread, I am able to see that my data points are not very well separated and are hence assigned a negative score. This shows poor semantic understanding and comparative abilities of compacttext.
+  * I do see some semantic capture:
+    * lime, peach, cherry, etc are placed close to each other.
+    * caste, hotel, cathedral are placed closeby.
 
 <p style="text-align: center;"><i>Clustering - FastText</i></p>
 
@@ -204,10 +217,10 @@ v = \text{Vocabulary length of the embeddings}
 * **`Semantic Scatter Score (compacttext (context 2)) = 1.005`**
 * **`Semantic Scatter Score (FastText) = 1.105`**
 
-As expected, compacttext performs worse than FastText. Still there is only a slight difference in the SSS scores for both, which is a little unexpected. I'll try to explore why this could be happening:
+As expected, compacttext performs worse than FastText. Still there is only a **slight difference in the SSS scores for both**, which is a little unexpected. I'll try to explore why this could be happening:
 * compacttext vocabulary size is very small as compared to FastText, causing compacttext to be penalized less.
 * The intrinsic evaluations I performed require a fairly basic semantic understanding of common words.
-* Even though it was evident that FastText clusters were better, there was not a very significant difference between Silhouette scores.
+* Even though it was evident that FastText clusters were better, there was not a very significant difference between Silhouette scores (which calculates clustering in n-dimensions).
 
 ---
 
@@ -215,8 +228,9 @@ As expected, compacttext performs worse than FastText. Still there is only a sli
 
 Word embeddings essentially exist in the same vector space (provided they are of equal dimensions). I downloaded FastText English and FastTest Hindi pre-trained Wiki word vectors (embeddings) from the [official website](https://fasttext.cc/docs/en/pretrained-vectors.html). Both sets of embeddings have 300 dimensions. Hence, all these combined word vectors exist in the same 300-dimensional space. But, as English and Hindi embeddings were trained separately across a linguistically varied corpora, English words may not be closer to their corresponding Hindi translations.
 
-What alignment does is try to find a transformation (a combination of rotation, translation, scaling) which will ***semantcally synchronize*** or ***ALIGN*** these 2 sets of word embeddings. At first it sounds magical, language translations being nothing but a simple matrix multiplication operation! However, it makes more sense when I realize that Hindi embeddings also exist in a spatially and semantically sound manner -- just like English embeddings. So, if `paper` and `documents` exist around each other, `कागज़` and `दस्तावेज़` also exist around each other in the same vector space; but in different regions. What an ideal alignment does is find a transformation for `कागज़` and `दस्तावेज़` so their transformed vectors now lie near `paper` and `documents`. To learn this transformation, we reaquire a small set of corresponding Hindi and English words to "learn" the transformation.
-This enables cross-lingual knowledge transfer, where we can relate words and ideas together across languages.
+What alignment does is try to find a transformation (a combination of rotation, translation, scaling) which will ***semantcally synchronize*** or ***ALIGN*** these 2 sets of word embeddings. At first it sounds magical, language translations being nothing but a simple matrix multiplication operation! However, it makes more sense when I realize that Hindi embeddings also exist in a spatially and semantically sound manner -- just like English embeddings. So, if `paper` and `documents` exist around each other, `कागज़` and `दस्तावेज़` also exist around each other in the same vector space; but in different regions. What an ideal alignment does is find a transformation for `कागज़` and `दस्तावेज़` so their vectors can be moved closer to `paper` and `documents`. 
+
+To learn this transformation, we reaquire a small set of corresponding Hindi and English words to "learn" the transformation. This enables cross-lingual knowledge transfer, where we can relate words and ideas together across languages.
 
 I will be experimenting with 2 methods for aligning Hindi words to English.
 * **Procrustes Analysis (Linear Transformation)**
@@ -225,7 +239,7 @@ I will be experimenting with 2 methods for aligning Hindi words to English.
 #### Bilingual Dictionary
 As I could not find a suitable bilingual Hindi-English dictionary online, I decided to create my own. Here are the steps I followed:
 * Take a sample ~4500 words from the Hindi FastText word vectors.
-* In chunks of 200, pass the words to ChatGPT with a prompt to generate a csv-like bilingual dictionary. I spent a considerable amount of time prompt-engineering this step. It's a cruical as a good quality training data can do wonders for learning the tranformations in this case.
+* In chunks of 200, pass the words to ChatGPT with a prompt to generate a csv-like bilingual dictionary. I spent a considerable amount of time prompt-engineering this step. It's a cruical step as a good quality training data can do wonders for learning the tranformations in this case.
 * The prompt is present inside: `Corpora/bilingual_prompt_en_hi.txt`. I have engineered a set of rules which gave me embeddings which look like this: (excerpt from `Corpora/bilingual_dict_chatgpt.csv`)
 ```
 ...
@@ -244,12 +258,12 @@ As I could not find a suitable bilingual Hindi-English dictionary online, I deci
 ...
 ```
 * This bilingual dictionary will be used to Train and Evaluate the alignment methodology.
-* Out of the 4,478 entries in the bilingual dictionary, 90% are used for traiing and 10% will be used for evaluation purposes. 
+* Out of the 4,478 entries in the bilingual dictionary, 90% are used for training and 10% will be used for evaluation purposes. 
 
 #### Procrustes Analysis
 * Using the bilingual dictionary and FastText Embeddings (English and Hindi) I create matrices `X` (Hindi Embeddings) and `Y` (English Embeddings). Each row of X and Y corresponds to a Hindi and English word vector respectively. The size of `X` and `Y` is equal to the bilingual dictionary. `X` and `Y` are my parallel word embedding matrices.
 * Procrustes Analysis involves calculating a Linear Transformation based on the parallel embedding matrices: `X` and `Y`.
-* Firstly, I perform a mean centering across each feature for both matrices. This shifts the data so that each feature has a mean of 0. This step ensures that the data is centered around the origin, making matices easier to work with.
+* Firstly, I perform a mean centering across each feature for both matrices. This shifts the data so that each feature has a mean of 0. This ensures that the data is centered around the origin, comparitive calculations easier.
 * By solving for the transformation `W` (a `(dims x dims)` transformation), we can map/align one set of datapoints `X` to another `Y`. This is exactly what I need, with `X` being a source language (Hindi) and `Y` being a target language (English).
 * This is essentially an optimization based on the least sqaures error between the transformed X, and the target Y.
   * The operations performed by `W` involve translations, rotations and scaling, just like a regular matrix transformation.
@@ -259,7 +273,6 @@ W = \arg\min_W ||WX - Y||^2
 ```math
 W = YX^\top (XX^\top)^{-1}
 ```
-* I was also intrigued if the inverse of `W` will help us in transferring knowledge from English to Hindi. It did work, but not as good as the Hindi to English transformation. This could be due to the fact that Hindi FastText vocabulary is way smaller than the English FastText embeddings (~9x smaller), making the inverse transformation less effective.
  
 ##### Visualizing Procrustes Transformation
 
@@ -267,13 +280,14 @@ W = YX^\top (XX^\top)^{-1}
 **Observation**
 * I see that English Embeddings form a tighter cluster of points in the 2D space, as compared to the Hindi Embeddings, which are more spread out.
 * I notice a "squishing" of the Hindi word Embeddings (in 2D) giving me a hint of what the Procrustes transformation might be doing. Note that the real transformation happens in the 300-dimensional space.
+* I was also intrigued if the inverse of `W` will help us in transferring knowledge from English to Hindi. It did work, but not as good as the Hindi to English transformation. This could be due to the fact that Hindi FastText vocabulary is way smaller than the English FastText embeddings (~9x smaller), making the inverse transformation less effective.
 
 #### Feed Forward Neural Network
-* Although the Procrustes Transformation, a potential drawback coulbe be the inability to learn non-linear complex transformations, and struggle with generalizability.
+* Although the Procrustes Transformation, a potential drawback could be be the inability to learn non-linear complex transformations, and struggle with generalizability.
 *  I want to attempt learning potential complex transformations using a Feed Forward Neural Network.
 * I can also use regularization techniques, which might make the translations generalize better.
 * Using a neural network, I can design a custom loss function to precisely measure the distance from the true embedding and optimize it effectively.
-* I created a Simple MLP Feed Forward Neural Network using PyTorch.
+* I created a simple MLP Feed Forward Neural Network using PyTorch.
 * A drawback of this method is that a Neural Network based alignment only works unidirectionally. For English to Hindi alignment, a sepatate model needs to be trained. A simple matrix inversion does the trick in the Procrustes transformation.
 * Model Architechure :-
 
@@ -387,9 +401,9 @@ l_2 = \text{Average L2 Norm Similarity}
 ---
 ### BONUS TASK: Harmful Associations
 
-In India, caste discrimination is prevalent not only in educational institutions, places of worship, jobs and markets, but is now also widely mainstream in online discourse. Be it Twitter, Facebook, Wikipedia or any other social knowledge base, violent casteist vocabularies and associations are propagated and gain traction in the media.
+In India, caste discrimination and casteist hate speech is prevalent not only in educational institutions, places of worship, jobs and markets, but is now also widely mainstream in online discourse. Be it Twitter, Facebook, Wikipedia or any other social knowledge base, violent casteist vocabularies and associations are propagated and gaining traction in the media.
 
-As word embeddings use tons of training data from the internet, these harmful associations find their way into these embeddings and silently inform the quality and "social coding" of the output. This is particularly harmful if these same embeddings are used in the sphere of law, curriculum design, and synthetic data production.
+As word embeddings use tons of training data from the internet, these harmful associations have no trouble finding their way into embeddings and silently informing the "social coding" of the output. This is particularly harmful if these same embeddings are used in fields like sphere of law, curriculum design, synthetic data production, etc -- these are spheres where LLM tech is already currently in use.
 
 To statistically analyse if casteist associations are reproduced which are propagated in mainstream online discourse:
 * I tried to see how adjectives (both positive and negative) statistically relate to nouns used to represent identities from both oppressor and oppressed caste communities.
@@ -421,6 +435,7 @@ Although both embddings show some level of harmful associations, it seems that t
 * BERT having been trained on much more training data, as transformer architecture enables tokens to be paralelly processed.
 * Being a contextual embedding trained with attention, BERT can capture these "harmful associations" better than FastText.
 
+---
 ## *References*
 [Evaluating Word Embedding Models: Methods and Experimental Results](https://arxiv.org/pdf/1901.09785)
 
